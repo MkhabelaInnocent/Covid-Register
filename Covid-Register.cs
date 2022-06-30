@@ -13,7 +13,7 @@ namespace Covid_Register
 {
     public partial class Form1 : Form
     {
-        SqlConnection con = new SqlConnection("");
+        SqlConnection con = new SqlConnection("Data Source=sqlserver.dynamicdna.co.za;Initial Catalog=Covid-Register-Innocent;User ID=BBD;Password=");
         public Form1()
         {
             InitializeComponent();
@@ -26,26 +26,29 @@ namespace Covid_Register
                 try
                 {
                     con.Open();
-                    SqlCommand com = new SqlCommand("", con);
+                     SqlCommand com = new SqlCommand("INSERT INTO [Covid-19](ID_Number,FullName,Phone_Number,Temperature,Date,Gender, Physical_Address) VALUES('" + idT.Text + "','" + fnameT.Text + "','" + numberT.Text + "','" +tempT.Text+ "','" + datePicker.Value + "','" + genderCmb.SelectedItem + "', '"+addressRtxb.Text+"')", con);
+
                     try
                     {
-                        com.ExecuteNonQuery();
+                  
 
-                        MessageBox.Show("Successfully Registered");
-                        //Clear all controls 
-                        fnameT.Clear();
-                        numberT.Clear();
-                        tempT.Clear();
-                        paddressRtxb.Clear();
-                        genderCmb.SelectedItem = null;
-                        datePicker.Value = DateTime.Now;
+                    com.ExecuteNonQuery();
+                    datePicker.Value = DateTime.Now;
+                    MessageBox.Show("Registered for covid");
+                    fnameT.Clear();
+                    tempT.Clear();
+                    numberT.Clear();
+                    idT.Clear();
+                    fnameT.Focus();
+                    addressRtxb.Clear();
+                    genderCmb.SelectedItem = null;
 
-                    }
-                    catch (Exception)
+                }
+                    catch (Exception ex )
                     {
 
-                        MessageBox.Show("Failed to register, please contact the system admin");
-                    }
+                    MessageBox.Show("Failed to connect to the database" + ex.Message);
+                }
 
                     con.Close();
                 }
